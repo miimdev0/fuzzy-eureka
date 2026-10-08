@@ -1,0 +1,99 @@
+name: Build portfolio sites
+
+on:
+  push:
+    branches:
+      - arena/e422f32f-fuzzy-eureka
+    paths:
+      - "animated-portfolio/**"
+      - "mobile-portfolio/**"
+      - ".github/workflows/build-animated-portfolio.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-animated-portfolio
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate source files
+        run: |
+          set -e
+          for dir in animated-portfolio mobile-portfolio; do
+            test -f "$dir/index.html"
+            test -f "$dir/styles.css"
+            test -f "$dir/script.js"
+            node --check "$dir/script.js"
+          done
+
+      - name: Build desktop site (dist/) and mobile site (dist/mobile/)
+        run: |
+          set -e
+          rm -rf dist
+          mkdir -p dist/mobile
+
+          # Desktop
+          cp animated-portfolio/index.html dist/index.html
+          npx --yes terser@5 animated-portfolio/script.js -c -m -o dist/script.js
+          npx --yes clean-css-cli@5 -o dist/styles.css animated-portfolio/styles.css
+
+          # Mobile
+          cp mobile-portfolio/index.html dist/mobile/index.html
+          npx --yes terser@5 mobile-portfolio/script.js -c -m -o dist/mobile/script.js
+          npx --yes clean-css-cli@5 -o dist/mobile/styles.css mobile-portfolio/styles.css
+
+      - name: Verify build output contains only HTML, CSS and JS
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+          const allowed = ['.html', '.css', '.js'];
+          const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
+            const p = path.join(dir, d.name);
+            return d.isDirectory() ? walk(p) : [p];
+          });
+          const files = walk('dist');
+          for (const f of files) {
+            if (!allowed.includes(path.extname(f))) throw new Error('Unexpected file in build: ' + f);
+          }
+          for (const base of ['dist', 'dist/mobile']) {
+            for (const f of ['index.html', 'styles.css', 'script.js']) {
+              if (!fs.existsSync(path.join(base, f))) throw new Error('Missing file in build: ' + base + '/' + f);
+            }
+            const html = fs.readFileSync(path.join(base, 'index.html'), 'utf8');
+            if (!html.includes('styles.css') || !html.includes('script.js')) throw new Error(base + '/index.html does not reference build assets');
+          }
+          for (const f of files) console.log(f + ': ' + fs.statSync(f).size + ' bytes');
+          "
+
+      - name: Write summary
+        run: |
+          {
+            echo "### Portfolio build"
+            echo ""
+            echo "| File | Bytes |"
+            echo "| --- | ---: |"
+            find dist -type f | sort | while read -r f; do
+              echo "| $f | $(stat -c %s "$f") |"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: animated-portfolio-site
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30

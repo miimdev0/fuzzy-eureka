@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Portfolio of Your Name, creative designer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#0d0d0d" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Portfolio" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header class="topbar reveal">
+      <a href="#top" class="logo" aria-label="Home">
+        <span class="logo-dot"></span><span class="logo-dot b"></span>
+      </a>
+      <nav class="nav">
+        <a href="#top">Home</a>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#stats">Awards</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="status">
+        <span class="status-dot"></span>
+        <span id="clock">New York</span>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="hero-text reveal">
+        <h1 class="display">creative<br />portfolio</h1>
+        <p class="lead">
+          Hi, I'm <strong>Your Name</strong>. I design bold, minimal and memorable
+          digital experiences for brands that want to be noticed.
+        </p>
+        <div class="chips">
+          <span>UI/UX</span><span>Branding</span><span>Motion</span><span>Web</span>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">+250</span>
+            <span class="stat-label">Projects delivered for clients worldwide</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">+800</span>
+            <span class="stat-label">Hours of design craft, crafted with care</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="hero-panel">
+          <span class="script">Your Name</span>
+          <div class="portrait" role="img" aria-label="Portrait placeholder">
+            <span class="portrait-initials">YN</span>
+          </div>
+          <button class="round-btn" aria-label="Website">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/></svg>
+          </button>
+        </div>
+        <a class="arrow-btn" href="#work" aria-label="Scroll to work">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Bento grid -->
+    <section class="bento-section" id="work">
+      <div class="section-head reveal">
+        <h2 class="display-md">Selected<br />work</h2>
+        <span class="tag">Portfolio ®</span>
+      </div>
+
+      <div class="bento">
+        <!-- About card -->
+        <article class="card about reveal" id="about">
+          <span class="card-label">About Me</span>
+          <div class="about-avatar">
+            <span>YN</span>
+          </div>
+          <p class="about-hello">Hi, I'm</p>
+          <h3 class="about-name">Your<br />Name</h3>
+          <a class="mail" href="mailto:hello@example.com">hello@example.com</a>
+          <span class="badge-round">Design • Portfolio • 2026</span>
+        </article>
+
+        <!-- Featured project -->
+        <article class="card feature reveal" data-tilt>
+          <div class="feature-art">
+            <div class="blob b1"></div>
+            <div class="blob b2"></div>
+            <div class="blob b3"></div>
+          </div>
+          <button class="play" aria-label="Play showreel">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <span class="feature-caption">Showreel 2026</span>
+        </article>
+
+        <!-- Stats -->
+        <article class="card stat-card mint reveal" id="stats">
+          <span class="big">251</span>
+          <span class="small">Projects</span>
+        </article>
+        <article class="card stat-card violet reveal">
+          <span class="big">156</span>
+          <span class="small">Awards</span>
+        </article>
+
+        <!-- Clients -->
+        <article class="card client reveal">
+          <span class="client-logo">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.8-3-.8C7.1 7.4 5.6 8.3 4.8 9.7c-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.1.8c1.3 0 2.1-1.2 2.9-2.4.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.5-1-2.5-3.7zM14.1 5.3c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3z"/></svg>
+          </span>
+          <span class="client-name">Clients</span>
+        </article>
+
+        <!-- Gradient art tile + awards -->
+        <article class="card art reveal" data-tilt>
+          <div class="sphere"></div>
+        </article>
+        <article class="card stat-card yellow reveal">
+          <span class="big">172</span>
+          <span class="small">Global design awards</span>
+        </article>
+
+        <!-- Case study -->
+        <article class="card project reveal" data-tilt>
+          <div class="project-art p1"></div>
+          <div class="project-info">
+            <span class="project-tag">Branding</span>
+            <h3>Nova Coffee</h3>
+          </div>
+        </article>
+        <article class="card project reveal" data-tilt>
+          <div class="project-art p2"></div>
+          <div class="project-info">
+            <span class="project-tag">Web App</span>
+            <h3>Atlas Finance</h3>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact reveal" id="contact">
+      <h2 class="display-md">Let's build<br />something <span class="hl">bold.</span></h2>
+      <a class="cta" href="mailto:hello@example.com">
+        Start a project
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </section>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> Your Name</span>
+      <span>Designed & built with care</span>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
