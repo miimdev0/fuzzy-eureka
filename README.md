@@ -35,3 +35,10 @@ The workflow `.github/workflows/build-apk.yml` wraps the site in a Capacitor And
 - Edit your name, projects and links in `animated-portfolio/index.html`.
 
 The workflow `.github/workflows/build-animated-portfolio.yml` validates the source, minifies the JS and CSS, checks that the output contains only `.html`, `.css` and `.js` files, and uploads the result as the `animated-portfolio-site` artifact.
+
+## Mobile portfolio (HTML/CSS/JS only)
+
+`mobile-portfolio/` is a mobile-first version of the animated portfolio, built with plain HTML, CSS and JavaScript.
+
+- Full-screen menu with a circular reveal, sticky bottom navigation that highlights the current section, a horizontal swipe carousel for projects, and tap-to-open service accordions.
+- Built by the same workflow: `dist/` holds the desktop site and `dist/mobile/` holds the mobile site.
