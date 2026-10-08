@@ -1,0 +1,86 @@
+name: Build animated portfolio
+
+on:
+  push:
+    branches:
+      - arena/e422f32f-fuzzy-eureka
+    paths:
+      - "animated-portfolio/**"
+      - ".github/workflows/build-animated-portfolio.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-animated-portfolio
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate source files
+        run: |
+          set -e
+          node --check animated-portfolio/script.js
+          test -f animated-portfolio/index.html
+          test -f animated-portfolio/styles.css
+          test -f animated-portfolio/script.js
+
+      - name: Build (minify JS and CSS)
+        run: |
+          set -e
+          rm -rf dist
+          mkdir dist
+          cp animated-portfolio/index.html dist/index.html
+          npx --yes terser@5 animated-portfolio/script.js -c -m -o dist/script.js
+          npx --yes clean-css-cli@5 -o dist/styles.css animated-portfolio/styles.css
+
+      - name: Verify build output contains only HTML, CSS and JS
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+          const files = fs.readdirSync('dist');
+          const allowed = ['.html', '.css', '.js'];
+          for (const f of files) {
+            if (!allowed.includes(path.extname(f))) throw new Error('Unexpected file in build: ' + f);
+          }
+          for (const f of ['index.html', 'styles.css', 'script.js']) {
+            if (!files.includes(f)) throw new Error('Missing file in build: ' + f);
+          }
+          const html = fs.readFileSync('dist/index.html', 'utf8');
+          if (!html.includes('styles.css') || !html.includes('script.js')) throw new Error('index.html does not reference build assets');
+          for (const f of files) {
+            const size = fs.statSync(path.join('dist', f)).size;
+            console.log(f + ': ' + size + ' bytes');
+          }
+          "
+
+      - name: Write summary
+        run: |
+          {
+            echo "### Animated portfolio build"
+            echo ""
+            echo "| File | Bytes |"
+            echo "| --- | ---: |"
+            for f in dist/*; do
+              echo "| $(basename "$f") | $(stat -c %s "$f") |"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: animated-portfolio-site
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30

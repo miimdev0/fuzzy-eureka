@@ -24,3 +24,14 @@ The workflow `.github/workflows/build-apk.yml` wraps the site in a Capacitor And
 - Download the `portfolio-apk` artifact from the workflow run and install `app-debug.apk` on an Android device (you may need to allow installs from unknown sources).
 - The APK bundles a snapshot of `portfolio/` at build time. Rebuild after changing the site.
 - The APK is debug-signed. For a Play Store release, a proper signing keystore is needed.
+
+
+## Animated portfolio (HTML/CSS/JS only)
+
+`animated-portfolio/` contains an animated single-page portfolio built with plain HTML, CSS and vanilla JavaScript (no frameworks).
+
+- Preview: open `animated-portfolio/index.html` in a browser.
+- Features: intro loader, custom cursor, rotating role text, staggered letter reveals, marquee, filterable project grid with 3D tilt and spotlight, count-up stats, scroll-driven word highlight, and a reduced-motion fallback.
+- Edit your name, projects and links in `animated-portfolio/index.html`.
+
+The workflow `.github/workflows/build-animated-portfolio.yml` validates the source, minifies the JS and CSS, checks that the output contains only `.html`, `.css` and `.js` files, and uploads the result as the `animated-portfolio-site` artifact.
