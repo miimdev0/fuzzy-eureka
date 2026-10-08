@@ -17,4 +17,10 @@ The site is a Progressive Web App: it has a web app manifest (`manifest.webmanif
 - On iPhone (Safari), use Share → "Add to Home Screen".
 - To change the cached files, bump `CACHE_VERSION` in `sw.js`.
 
-To get an Android `.apk`, deploy the site over HTTPS (for example GitHub Pages) and open its URL on [PWABuilder](https://www.pwabuilder.com/), which generates an APK package from the live site.
+### Android APK
+
+The workflow `.github/workflows/build-apk.yml` wraps the site in a Capacitor Android app and builds a debug APK. It runs on every push to this branch that changes `portfolio/`, or manually from the **Actions** tab.
+
+- Download the `portfolio-apk` artifact from the workflow run and install `app-debug.apk` on an Android device (you may need to allow installs from unknown sources).
+- The APK bundles a snapshot of `portfolio/` at build time. Rebuild after changing the site.
+- The APK is debug-signed. For a Play Store release, a proper signing keystore is needed.
